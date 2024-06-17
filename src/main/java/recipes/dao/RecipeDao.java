@@ -73,12 +73,11 @@ public class RecipeDao extends DaoBase {
 	
 	private List<Category> fetchRecipeCategories(Connection conn, Integer recipeId) throws SQLException{
 		//@formatter:off
-		String sql = "'"
-				+ "SELECT c.category_id, c.category_name  "
-				+ "FROM " + RECIPE_CATEGORY_TABLE + " rc "
-				+ "JOIN " + CATEGORY_TABLE + " c USING (category_id) "
-				+ "WHERE rc.recipe_id = ? "
-				+ "ORDER BY c.category_name";
+		String sql = ""
+		        + "SELECT c.category_id, c.category_name "
+		        + "FROM " + RECIPE_CATEGORY_TABLE + " rc "
+		        + "JOIN " + CATEGORY_TABLE + " c USING (category_id) "
+		        + "WHERE rc.recipe_id = ?";
 		//@formatter:on
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -99,7 +98,8 @@ public class RecipeDao extends DaoBase {
 	}// End fetchRecipeCategories()
 
 	private List<Step> fetchRecipeSteps(Connection conn, Integer recipeId) throws SQLException {
-		String sql =  "SELECT * FROM " + STEP_TABLE + " s WHERE s.recipe_id = ?";
+		String sql = "SELECT * FROM " + STEP_TABLE + " s WHERE s.recipe_id = ? "
+		        + "ORDER BY s.step_order";
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
 			setParameter(stmt, 1, recipeId, Integer.class);
@@ -119,12 +119,12 @@ public class RecipeDao extends DaoBase {
 
 	private List<Ingredient> fetchRecipeIngredients(Connection conn, Integer recipeId) throws SQLException {
 		//@formatter:off
-		String sql = "'"
-				+ "SELECT i.*, u.unit_name_singular, u.unit_name_plural "
-				+ "FROM " + INGREDIENT_TABLE + " i "
-				+ "LEFT JOIN " + UNIT_TABLE + " u USING (unit_id) "
-				+ "WHERE i.recipe_id = ? "
-				+ "ORDER BY i.ingredient_order";
+		String sql = ""
+		        + "SELECT i.*, u.unit_name_singular, u.unit_name_plural "
+		        + "FROM " + INGREDIENT_TABLE + " i "
+		        + "LEFT JOIN " + UNIT_TABLE + " u USING (unit_id) "
+		        + "WHERE i.recipe_id = ? "
+		        + "ORDER BY i.ingredient_order";
 		//@formatter:on
 		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -137,7 +137,7 @@ public class RecipeDao extends DaoBase {
 					Ingredient ingredient = extract(rs, Ingredient.class);
 					Unit unit = extract(rs, Unit.class);
 					
-					ingredient.setUnitId(unit);
+					ingredient.setUnit(unit);
 					ingredients.add(ingredient);
 				}
 				
