@@ -102,7 +102,7 @@ public class Recipe {
 		}
 		
 		return recipe;
-	}
+	}//End toString()
 
 	
 }
