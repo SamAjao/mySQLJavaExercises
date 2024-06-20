@@ -25,7 +25,7 @@ public class Unit {
 	}
 	@Override
 	public String toString() {
-		return "Unit [unitId=" + unitId + ", unitNameSingular=" + unitNameSingular + ", unitNamePlural="
+		return "Unit	[unitId=" + unitId + ",	singular=" + unitNameSingular + ", plural="
 				+ unitNamePlural + "]";
 	}
 
