@@ -30,7 +30,8 @@ public class Recipes {
 			"5) Add ingredient to current recipe",
 			"6) Add step to current recipe",
 			"7) Add category to current recipe",
-			"8) Modify step in current recipe"
+			"8) Modify step in current recipe",
+			"9) Delete recipe"
 			);
 			
 	// @formatter:on
@@ -77,6 +78,9 @@ public class Recipes {
 				case 8:
 					modifyStepInCurrentRecipe();
 					break;
+				case 9:
+					deleteRecipe();
+					break;
 				default:
 					System.out.println("\n" + operation + " is not valid. Try again.");
 					break;
@@ -88,9 +92,25 @@ public class Recipes {
 		
 	}
 	
+	private void deleteRecipe() {
+		listRecipes();
+		Integer recipeId = getIntInput("Enter the ID of the recipe to delete");
+		
+		if(Objects.nonNull(recipeId)) {
+			recipeService.deleteRecipe(recipeId);
+			
+			System.out.println("You have deleted recipe " + recipeId);
+			
+			if(Objects.nonNull(curRecipe) && curRecipe.getRecipeId().equals(recipeId)) {
+				curRecipe = null;			
+			}
+		}
+		
+	}//End deleteRecipe()
+
 	private void modifyStepInCurrentRecipe() {
 		if(Objects.isNull(curRecipe)) {
-			System.out.println("\nPlease select a recipe first");
+			System.out.println("\nPlease select a recipe first.");
 			return;
 		}
 		
@@ -118,7 +138,7 @@ public class Recipes {
 
 	private void addCategoryToCurrentRecipe() {
 		if(Objects.isNull(curRecipe)) {
-			System.out.println("\nPlease select a recipe first");
+			System.out.println("\nPlease select a recipe first.");
 			return;
 		}
 		
@@ -136,7 +156,7 @@ public class Recipes {
 
 	private void addStepToCurrentRecipe() {
 		if(Objects.isNull(curRecipe)) {
-			System.out.println("\nPlease select a recipe first");
+			System.out.println("\nPlease select a recipe first.");
 			return;
 		}
 		
@@ -156,7 +176,7 @@ public class Recipes {
 
 	private void addIngredientToCurrentRecipe() {
 		if(Objects.isNull(curRecipe)) {
-			System.out.println("\nPlease select a recipe first");
+			System.out.println("\nPlease select a recipe first.");
 			return;
 		}
 		
